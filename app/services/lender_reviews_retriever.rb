@@ -13,7 +13,7 @@ class LenderReviewsRetriever
   end 
 
   def get_reviews
-    @reviews_pages = LendingTreeClient.new(lender_url: lender_url, max_num_pages: max_num_pages ).fetch_all
+    @reviews_pages = LendingTreeClient.new(lender_url: lender_url, max_num_pages: max_num_pages).fetch_all
   end
 
   def parse_reviews
@@ -21,7 +21,7 @@ class LenderReviewsRetriever
   end 
 
   def response_data
-     { data: {reviews: reviews, timestamp: timestamp} }
+     { data: {num_reviews: reviews.size, timestamp: timestamp, reviews: reviews } }
   end
 
   private
