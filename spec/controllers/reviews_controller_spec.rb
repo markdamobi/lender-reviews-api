@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe ReviewsControllerController, type: :controller do
+RSpec.describe ReviewsController, type: :controller do
 
 end

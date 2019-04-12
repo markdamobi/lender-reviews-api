@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   def index 
     lender_url = params[:lender_url]
-    max_num_pages = params[:max_num_pages].to_i
-    reviews_retriever = LenderReviewsRetriever.new(lender_url: lender_url, max_num_pages: max_num_pages)
+    page_limit = params[:page_limit].to_i
+    reviews_retriever = ReviewsRetrieverService.new(lender_url: lender_url, page_limit: page_limit)
 
     reviews_retriever.call
     render json: reviews_retriever.response_data
