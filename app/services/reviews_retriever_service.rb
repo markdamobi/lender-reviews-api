@@ -1,14 +1,13 @@
 class ReviewsRetrieverService
 
-  def initialize(lender_url: , page_limit: nil)
-    @lender_url = lender_url
+  def initialize(client: client)
     @page_limit = page_limit
-    @client = LendingTreeClient.new(lender_url: lender_url, page_limit: page_limit)
+    @client = client
     @timestamp = DateTime.current
   end
 
-  attr_reader :lender_url, :reviews, :page_limit, :timestamp
-  delegate :reviews_data, :number_of_pages, to: :@client
+  attr_reader :reviews, :page_limit, :timestamp
+  delegate :lender_url, :reviews_data, :number_of_pages, to: :@client
 
   def call
     get_reviews
@@ -16,7 +15,7 @@ class ReviewsRetrieverService
   end 
 
   def response_data
-    { 
+    @response_data = { 
       data: {
         reviews_count: reviews.size, 
         reviews: reviews, 

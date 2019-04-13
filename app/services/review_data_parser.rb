@@ -1,5 +1,5 @@
 class ReviewDataParser 
-  def initialize(data: )
+  def initialize(data:)
     @data = data
   end
 

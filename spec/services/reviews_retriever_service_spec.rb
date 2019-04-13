@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-describe ReviewsRetrieverService do 
+describe ReviewsRetrieverService do
+  let(:client) { LendingTreeClient.new(lender_url: "www.lendingtree.com/stuff") } 
   describe "#call" do 
     before do 
       allow_any_instance_of(described_class).to receive(:get_reviews)
@@ -8,7 +9,7 @@ describe ReviewsRetrieverService do
     end
 
     it "calls methods to get and the parse reviews data" do 
-      reviews_retriever = described_class.new(lender_url: "")
+      reviews_retriever = described_class.new(client: client)
       expect(reviews_retriever).to receive(:get_reviews).ordered
       expect(reviews_retriever).to receive(:parse_reviews).ordered
       reviews_retriever.call
@@ -34,10 +35,10 @@ describe ReviewsRetrieverService do
           reviews: reviews, 
           timestamp: timestamp, 
           number_of_pages: 31,
-          lender_url: ""
+          lender_url: client.lender_url
         }
       }
-      reviews_retriever = described_class.new(lender_url: "")
+      reviews_retriever = described_class.new(client: client)
       expect(reviews_retriever.response_data).to eql expected_response
     end
   end
