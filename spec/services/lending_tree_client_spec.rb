@@ -3,6 +3,12 @@ require 'rails_helper'
 describe LendingTreeClient do 
   let!(:sample_html_data_with_reviews) { File.read(Rails.root.join("spec","test_data", "reviews.html")) }
   let!(:sample_html_data_without_reviews) { File.read(Rails.root.join("spec","test_data", "no_reviews.html")) }
+  
+  describe "#initialize" do 
+    it "raises error if lender_url is blank" do 
+      expect{ described_class.new }.to raise_error(Exceptions::BadRequestError)
+    end
+  end
 
   describe "#fetch" do
     before do 

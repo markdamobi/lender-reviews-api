@@ -1,5 +1,8 @@
 class LendingTreeClient
-  def initialize(lender_url:, page_limit: nil)
+  def initialize(lender_url: nil, page_limit: nil)
+    if lender_url.blank?
+      raise Exceptions::BadRequestError.new("You must pass in the lender_url as a query param.")
+    end
     @lender_url = lender_url
     #NOTE: if page_limit is not a positive integer, this assumes you want all reviews. 
     @page_limit = page_limit.to_i < 1 ? Float::INFINITY : page_limit.to_i
