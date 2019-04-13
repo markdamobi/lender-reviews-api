@@ -19,7 +19,7 @@ describe LendingTreeClient do
     end
 
     it "fetches data starting from first page until there's no more reviews data." do
-      client = described_class.new(lender_url: "https://www.lendingtree.com")
+      client = described_class.new(lender_url: "https://www.lendingtree.com/reviews")
       client.fetch 
       expect(client.number_of_pages).to eql 2
       expect(client.reviews_data.size).to eql 20
@@ -27,7 +27,7 @@ describe LendingTreeClient do
     end
 
     it "fetches the number of pages requested if optional page_limit was set" do 
-      client = described_class.new(lender_url: "https://www.lendingtree.com", page_limit: 1)
+      client = described_class.new(lender_url: "https://www.lendingtree.com/reviews", page_limit: 1)
       client.fetch 
       expect(client.number_of_pages).to eql 1
       expect(client.reviews_data.size).to eql 10
@@ -40,26 +40,30 @@ describe LendingTreeClient do
         client = described_class.new(lender_url: "www.lendingtree.com")
         expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
       end
-      it "raises error indicating a bad request." do 
-        client = described_class.new(lender_url: "http://www.lendingtree.com")
-        expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
-      end
     end
 
     context "when url is https" do 
       context "when the host is not lendingtree.com" do
         it "raises error indicating a bad request." do 
-          client = described_class.new(lender_url: "https://www.lendertree.com")
+          client = described_class.new(lender_url: "https://www.lendertree.com/reviews")
           expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
         end
       end
 
-      context "when the host is lendingtree.com" do 
+      context "when the lender_url doesn't start with https://www.lendertree.com/reviews" do 
+        it "raises error indicating a bad request." do 
+          client = described_class.new(lender_url: "https://www.lendingtree.com/someotherplace")
+          expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
+        end
+      end
+
+      context "when the host is lendingtree.com and lender url starts with https://www.lendertree.com/reviews" do 
         it "returns true" do 
-          client = described_class.new(lender_url: "https://www.lendingtree.com")
+          client = described_class.new(lender_url: "https://www.lendingtree.com/reviews")
           expect(client.validate_url).to be_truthy
         end
       end
+
     end
   end
 end

@@ -31,6 +31,8 @@ class LendingTreeClient
       raise Exceptions::BadRequestError.new("Something is wrong with url: #{lender_url}. needs to be https.")
     elsif uri.host != "www.lendingtree.com"
       raise Exceptions::BadRequestError.new("Something is wrong with url: #{lender_url}. Host must be www.lendingtree.com")
+    elsif !lender_url.starts_with?("https://www.lendingtree.com/reviews")
+      raise Exceptions::BadRequestError.new("The lender url must start with https://www.lendingtree.com/reviews. Fix and try again.")
     end
     true
   end
