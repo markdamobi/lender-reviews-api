@@ -27,7 +27,7 @@ class LendingTreeClient
   ## note: this enforces https url. Can be changed later if needed. 
   def validate_url
     uri = URI.parse(lender_url)
-    if !uri.scheme == "https"
+    if uri.scheme != "https"
       raise Exceptions::BadRequestError.new("Something is wrong with url: #{lender_url}. needs to be https.")
     elsif uri.host != "www.lendingtree.com"
       raise Exceptions::BadRequestError.new("Something is wrong with url: #{lender_url}. Host must be www.lendingtree.com")

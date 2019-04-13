@@ -33,6 +33,10 @@ describe LendingTreeClient do
         client = described_class.new(lender_url: "www.lendingtree.com")
         expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
       end
+      it "raises error indicating a bad request." do 
+        client = described_class.new(lender_url: "http://www.lendingtree.com")
+        expect { client.validate_url }.to raise_error(Exceptions::BadRequestError)
+      end
     end
 
     context "when url is https" do 
