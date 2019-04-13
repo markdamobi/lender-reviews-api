@@ -1,4 +1,6 @@
 class ReviewDataParser 
+
+  # data is a nokogiri object that contains html elements representation of the contents of a reviews. 
   def initialize(data:)
     @data = data
   end

@@ -25,6 +25,13 @@ describe LendingTreeClient do
       expect(client.reviews_data.size).to eql 20
       expect(client.reviews_data.first.attributes["class"].value).to include "mainReviews"
     end
+
+    it "fetches the number of pages requested if optional page_limit was set" do 
+      client = described_class.new(lender_url: "https://www.lendingtree.com", page_limit: 1)
+      client.fetch 
+      expect(client.number_of_pages).to eql 1
+      expect(client.reviews_data.size).to eql 10
+    end
   end
 
   describe "validate_url" do 
